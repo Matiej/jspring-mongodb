@@ -13,7 +13,7 @@
     <artifactId>jspring_mongo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jspring_mongo</name>
-    <description>jspring_mongo</description>
+    <description>jspring_mongo training application</description>
 
     <properties>
         <java.version>17</java.version>
