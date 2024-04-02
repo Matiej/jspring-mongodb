@@ -1,4 +1,4 @@
-package com.emat.jspring_mongo.entity;
+package com.emat.jspring_mongo.student.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
