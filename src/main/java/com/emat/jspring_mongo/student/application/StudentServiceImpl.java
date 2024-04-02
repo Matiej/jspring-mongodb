@@ -24,22 +24,26 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public Optional<StudentResponse> getStudentById(String id) {
-        return Optional.empty();
+        return studentRepository.findById(id).map(student -> new StudentResponse().toStudentResponse(student));
     }
 
     @Override
     public List<StudentResponse> getAllStudents() {
-        return null;
+        return studentRepository.findAll()
+                .stream()
+                .map(student -> new StudentResponse().toStudentResponse(student))
+                .toList();
     }
 
     @Override
     public Optional<StudentResponse> updateStudent(UpdateStudentCommand command) {
-        return Optional.empty();
+        return studentRepository.findById(command.getStudentId())
+                .map(studentFromDB -> new StudentResponse().toStudentResponse(studentRepository.save(command.toStudent(studentFromDB.getCreatedAt()))));
     }
 
     @Override
     public void deleteStudent(String id) {
-
+        studentRepository.deleteById(id);
     }
 
     @Override

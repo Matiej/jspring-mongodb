@@ -7,7 +7,9 @@ import com.emat.jspring_mongo.student.application.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -18,7 +20,8 @@ public class StudentController {
 
     @PostMapping
     public ResponseEntity<StudentResponse> createStudent(@RequestBody CreateStudentCommand command) {
-        return ResponseEntity.ok(studentService.createStudent(command));
+        StudentResponse student = studentService.createStudent(command);
+        return ResponseEntity.created(getUri(student.getId())).body(student);
     }
 
     @GetMapping("/{id}")
@@ -96,5 +99,15 @@ public class StudentController {
     @GetMapping("/nameStartWith")
     public ResponseEntity<List<StudentResponse>> nameStartWith(@RequestParam String namePrefix) {
         return ResponseEntity.ok(studentService.nameStartWith(namePrefix));
+    }
+
+    private static URI getUri(String id) {
+        return ServletUriComponentsBuilder
+                .fromCurrentServletMapping()
+                .path("/api")
+                .path("/students")
+                .path("/{id}")
+                .buildAndExpand(id)
+                .toUri();
     }
 }

@@ -18,7 +18,7 @@ import static java.util.UUID.randomUUID;
 @Setter
 @AllArgsConstructor(onConstructor=@__({@PersistenceConstructor}))
 @NoArgsConstructor
-@Document(collation = "student")
+@Document(collection = "student")
 public class Student {
 
     @Id
@@ -34,8 +34,6 @@ public class Student {
     private LocalDateTime createdAt;
     @LastModifiedDate
     private LocalDateTime lastUpdatedAt;
-    @Version
-    private long version;
 
     public void setSubjects(Set<Subject> subjects) {
         Set<Subject> subjectSet = new HashSet<>(subjects);
