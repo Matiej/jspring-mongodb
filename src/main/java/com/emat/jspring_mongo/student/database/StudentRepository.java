@@ -1,6 +1,6 @@
-package com.emat.jspring_mongo.repository;
+package com.emat.jspring_mongo.student.database;
 
-import com.emat.jspring_mongo.entity.Student;
+import com.emat.jspring_mongo.student.entity.Student;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
