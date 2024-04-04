@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
@@ -23,5 +24,11 @@ public class StudentResponse {
 
     public StudentResponse toStudentResponse(Student student) {
         return new StudentResponse(student.getId(), student.getName(), student.getMail(), student.getDepartment(), student.getSubjects());
+    }
+
+    public List<StudentResponse> toStudentResponseList(List<Student> studentList) {
+        return studentList.stream()
+                .map(this::toStudentResponse)
+                .toList();
     }
 }
