@@ -26,7 +26,7 @@ public interface StudentService {
 
     List<StudentResponse> getAllStudentsWithPagination(int pageNumber, int pageSize);
 
-    List<StudentResponse> getAllStudentsWithASCSorting(String lastName);
+    List<StudentResponse> getAllStudentsSortedByEmailAsc(String property, int sortingOrder);
 
     List<StudentResponse> getStudentsByDepartmentName(String departmentName);
 

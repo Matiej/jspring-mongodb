@@ -8,6 +8,7 @@ import com.emat.jspring_mongo.student.entity.Student;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -77,8 +78,14 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentResponse> getAllStudentsWithASCSorting(String lastName) {
-        return null;
+    public List<StudentResponse> getAllStudentsSortedByEmailAsc(String property, int sortingOrder) {
+        Sort sorting;
+        if (sortingOrder == 1) {
+            sorting = Sort.by(property).ascending();
+        } else {
+            sorting = Sort.by(Sort.Direction.DESC, property);
+        }
+        return new StudentResponse().toStudentResponseList(studentRepository.findAll(sorting));
     }
 
     @Override

@@ -75,10 +75,12 @@ public class StudentController {
     }
 
     @GetMapping("/sort")
-    public ResponseEntity<List<StudentResponse>> getAllStudentsWithASCSorting(@RequestParam String lastName) {
-        return ResponseEntity.ok(studentService.getAllStudentsWithASCSorting(lastName));
+    public ResponseEntity<List<StudentResponse>> getAllStudentsWithASCSorting(@RequestParam String propertyName, int sortingOrder) {
+        if(sortingOrder != -1 && sortingOrder != 1) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(studentService.getAllStudentsSortedByEmailAsc(propertyName, sortingOrder));
     }
-
 
     @GetMapping("/pagination")
     public ResponseEntity<List<StudentResponse>> getAllStudentsWithPagination(
