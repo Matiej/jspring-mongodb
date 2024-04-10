@@ -82,9 +82,13 @@ public class StudentController {
 
     @GetMapping("/pagination")
     public ResponseEntity<List<StudentResponse>> getAllStudentsWithPagination(
-            @RequestParam int page,
-            @RequestParam int perPage) {
-        return ResponseEntity.ok(studentService.getAllStudentsWithPagination(page, perPage));
+            @RequestParam int pageNumber,
+            @RequestParam int pageSize) {
+
+        if (pageSize < 1 && pageNumber < 1) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(studentService.getAllStudentsWithPagination(pageNumber, pageSize));
     }
 
     @GetMapping("/byDepartment")

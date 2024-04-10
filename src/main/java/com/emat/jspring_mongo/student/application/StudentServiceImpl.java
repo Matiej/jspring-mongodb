@@ -6,6 +6,8 @@ import com.emat.jspring_mongo.student.UpdateStudentCommand;
 import com.emat.jspring_mongo.student.database.StudentRepository;
 import com.emat.jspring_mongo.student.entity.Student;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -68,8 +70,10 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public List<StudentResponse> getAllStudentsWithPagination(int noPerPage, int page) {
-        return null;
+    public List<StudentResponse> getAllStudentsWithPagination(int pageNumber
+            , int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        return new StudentResponse().toStudentResponseList(studentRepository.findAll(pageable).getContent());
     }
 
     @Override
