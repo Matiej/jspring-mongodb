@@ -62,8 +62,9 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Optional<StudentResponse> findStudentByNameOrEmail(String name, String email) {
-        return Optional.empty();
+    public Optional<List<StudentResponse>> findStudentsByNameOrEmail(String name, String email) {
+        return studentRepository.findByNameOrMail(name, email)
+                .map(student -> new StudentResponse().toStudentResponseList(student));
     }
 
     @Override

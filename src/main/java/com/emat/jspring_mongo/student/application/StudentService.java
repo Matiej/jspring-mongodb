@@ -15,7 +15,7 @@ public interface StudentService {
     void deleteStudent(String id);
     List<StudentResponse> getStudentsByName(String name);
     Optional<StudentResponse> findStudentByNameAndEmail(String name, String email);
-    Optional<StudentResponse> findStudentByNameOrEmail(String name, String email);
+    Optional<List<StudentResponse>> findStudentsByNameOrEmail(String name, String email);
     List<StudentResponse> getAllStudentsWithPagination(int noPerPage, int page);
     List<StudentResponse> getAllStudentsWithASCSorting(String lastName);
     List<StudentResponse> getStudentsByDepartmentName(String departmentName);

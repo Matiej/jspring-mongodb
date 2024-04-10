@@ -61,9 +61,9 @@ public class StudentController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/searchOr")
-    public ResponseEntity<StudentResponse> findStudentByNameOrEmail(@RequestParam String name, @RequestParam String email) {
-        return studentService.findStudentByNameOrEmail(name, email)
+    @GetMapping("/searchor")
+    public ResponseEntity<List<StudentResponse>> findStudentByNameOrEmail(@RequestParam String name, @RequestParam String email) {
+        return studentService.findStudentsByNameOrEmail(name, email)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
