@@ -24,6 +24,12 @@ public class StudentController {
         return ResponseEntity.created(getUri(student.getId())).body(student);
     }
 
+    @PostMapping(value = "allcreate")
+    public List<ResponseEntity<StudentResponse>> createStudents(@RequestBody List<CreateStudentCommand> command) {
+        List<StudentResponse> createdStudents = studentService.createStudents(command);
+        return createdStudents.stream().map(student -> ResponseEntity.created(getUri(student.getId())).body(student)).toList();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable String id) {
         return studentService.getStudentById(id)

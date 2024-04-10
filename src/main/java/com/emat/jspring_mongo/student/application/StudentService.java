@@ -23,4 +23,5 @@ public interface StudentService {
     List<StudentResponse> emailLike(String email);
     List<StudentResponse> nameStartWith(String name);
 
+    List<StudentResponse> createStudents(List<CreateStudentCommand> command);
 }

@@ -96,4 +96,10 @@ public class StudentServiceImpl implements StudentService {
     public List<StudentResponse> nameStartWith(String name) {
         return null;
     }
+
+    @Override
+    public List<StudentResponse> createStudents(List<CreateStudentCommand> command) {
+        List<Student> students = studentRepository.saveAll(command.stream().map(CreateStudentCommand::toStudent).toList());
+        return new StudentResponse().toStudentResponseList(students);
+    }
 }
