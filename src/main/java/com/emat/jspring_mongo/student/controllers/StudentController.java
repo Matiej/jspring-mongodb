@@ -24,6 +24,12 @@ public class StudentController {
         return ResponseEntity.created(getUri(student.getId())).body(student);
     }
 
+    @PostMapping(value = "allcreate")
+    public List<ResponseEntity<StudentResponse>> createStudents(@RequestBody List<CreateStudentCommand> command) {
+        List<StudentResponse> createdStudents = studentService.createStudents(command);
+        return createdStudents.stream().map(student -> ResponseEntity.created(getUri(student.getId())).body(student)).toList();
+    }
+
     @GetMapping("/{id}")
     public ResponseEntity<StudentResponse> getStudentById(@PathVariable String id) {
         return studentService.getStudentById(id)
@@ -61,27 +67,33 @@ public class StudentController {
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/searchOr")
-    public ResponseEntity<StudentResponse> findStudentByNameOrEmail(@RequestParam String name, @RequestParam String email) {
-        return studentService.findStudentByNameOrEmail(name, email)
+    @GetMapping("/searchor")
+    public ResponseEntity<List<StudentResponse>> findStudentByNameOrEmail(@RequestParam String name, @RequestParam String email) {
+        return studentService.findStudentsByNameOrEmail(name, email)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/sort")
-    public ResponseEntity<List<StudentResponse>> getAllStudentsWithASCSorting(@RequestParam String lastName) {
-        return ResponseEntity.ok(studentService.getAllStudentsWithASCSorting(lastName));
+    public ResponseEntity<List<StudentResponse>> getAllStudentsWithASCSorting(@RequestParam String propertyName, int sortingOrder) {
+        if(sortingOrder != -1 && sortingOrder != 1) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(studentService.getAllStudentsSortedByEmailAsc(propertyName, sortingOrder));
     }
-
 
     @GetMapping("/pagination")
     public ResponseEntity<List<StudentResponse>> getAllStudentsWithPagination(
-            @RequestParam int page,
-            @RequestParam int perPage) {
-        return ResponseEntity.ok(studentService.getAllStudentsWithPagination(page, perPage));
+            @RequestParam int pageNumber,
+            @RequestParam int pageSize) {
+
+        if (pageSize < 1 && pageNumber < 1) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(studentService.getAllStudentsWithPagination(pageNumber, pageSize));
     }
 
-    @GetMapping("/byDepartment")
+    @GetMapping("/bydepartment")
     public ResponseEntity<List<StudentResponse>> getStudentsByDepartmentName(@RequestParam String departmentName) {
         return ResponseEntity.ok(studentService.getStudentsByDepartmentName(departmentName));
     }

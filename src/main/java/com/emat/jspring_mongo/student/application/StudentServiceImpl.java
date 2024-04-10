@@ -6,6 +6,9 @@ import com.emat.jspring_mongo.student.UpdateStudentCommand;
 import com.emat.jspring_mongo.student.database.StudentRepository;
 import com.emat.jspring_mongo.student.entity.Student;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -62,23 +65,32 @@ public class StudentServiceImpl implements StudentService {
     }
 
     @Override
-    public Optional<StudentResponse> findStudentByNameOrEmail(String name, String email) {
-        return Optional.empty();
+    public Optional<List<StudentResponse>> findStudentsByNameOrEmail(String name, String email) {
+        return studentRepository.findByNameOrMail(name, email)
+                .map(student -> new StudentResponse().toStudentResponseList(student));
     }
 
     @Override
-    public List<StudentResponse> getAllStudentsWithPagination(int noPerPage, int page) {
-        return null;
+    public List<StudentResponse> getAllStudentsWithPagination(int pageNumber
+            , int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber - 1, pageSize);
+        return new StudentResponse().toStudentResponseList(studentRepository.findAll(pageable).getContent());
     }
 
     @Override
-    public List<StudentResponse> getAllStudentsWithASCSorting(String lastName) {
-        return null;
+    public List<StudentResponse> getAllStudentsSortedByEmailAsc(String property, int sortingOrder) {
+        Sort sorting;
+        if (sortingOrder == 1) {
+            sorting = Sort.by(property).ascending();
+        } else {
+            sorting = Sort.by(Sort.Direction.DESC, property);
+        }
+        return new StudentResponse().toStudentResponseList(studentRepository.findAll(sorting));
     }
 
     @Override
     public List<StudentResponse> getStudentsByDepartmentName(String departmentName) {
-        return null;
+        return new StudentResponse().toStudentResponseList(studentRepository.findByDepartmentDepartmentName(departmentName));
     }
 
     @Override
@@ -94,5 +106,11 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public List<StudentResponse> nameStartWith(String name) {
         return null;
+    }
+
+    @Override
+    public List<StudentResponse> createStudents(List<CreateStudentCommand> command) {
+        List<Student> students = studentRepository.saveAll(command.stream().map(CreateStudentCommand::toStudent).toList());
+        return new StudentResponse().toStudentResponseList(students);
     }
 }
