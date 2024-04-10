@@ -90,7 +90,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentResponse> getStudentsByDepartmentName(String departmentName) {
-        return null;
+        return new StudentResponse().toStudentResponseList(studentRepository.findByDepartmentDepartmentName(departmentName));
     }
 
     @Override

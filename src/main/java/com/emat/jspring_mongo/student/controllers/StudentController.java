@@ -93,7 +93,7 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getAllStudentsWithPagination(pageNumber, pageSize));
     }
 
-    @GetMapping("/byDepartment")
+    @GetMapping("/bydepartment")
     public ResponseEntity<List<StudentResponse>> getStudentsByDepartmentName(@RequestParam String departmentName) {
         return ResponseEntity.ok(studentService.getStudentsByDepartmentName(departmentName));
     }
