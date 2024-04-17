@@ -98,17 +98,17 @@ public class StudentController {
         return ResponseEntity.ok(studentService.getStudentsByDepartmentName(departmentName));
     }
 
-    @GetMapping("/bySubject")
+    @GetMapping("/bysubject")
     public ResponseEntity<List<StudentResponse>> getStudentsBySubjectName(@RequestParam String subjectName) {
         return ResponseEntity.ok(studentService.getStudentsBySubjectName(subjectName));
     }
 
-    @GetMapping("/emailLike")
-    public ResponseEntity<List<StudentResponse>> emailLike(@RequestParam String emailPattern) {
-        return ResponseEntity.ok(studentService.emailLike(emailPattern));
+    @GetMapping("/emaillike")
+    public ResponseEntity<List<StudentResponse>> emailLike(@RequestParam String mail) {
+        return ResponseEntity.ok(studentService.emailLike(mail));
     }
 
-    @GetMapping("/nameStartWith")
+    @GetMapping("/namestartwith")
     public ResponseEntity<List<StudentResponse>> nameStartWith(@RequestParam String namePrefix) {
         return ResponseEntity.ok(studentService.nameStartWith(namePrefix));
     }
