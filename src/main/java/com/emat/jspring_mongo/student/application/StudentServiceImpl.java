@@ -95,17 +95,17 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public List<StudentResponse> getStudentsBySubjectName(String subName) {
-        return null;
+        return new StudentResponse().toStudentResponseList(studentRepository.findBySubjectsSubjectName(subName));
     }
 
     @Override
-    public List<StudentResponse> emailLike(String email) {
-        return null;
+    public List<StudentResponse> emailLike(String mail) {
+        return new StudentResponse().toStudentResponseList(studentRepository.findByMailIsLike(mail));
     }
 
     @Override
-    public List<StudentResponse> nameStartWith(String name) {
-        return null;
+    public List<StudentResponse> nameStartWith(String namePrefix) {
+        return new StudentResponse().toStudentResponseList(studentRepository.findByNameStartingWith(namePrefix));
     }
 
     @Override
